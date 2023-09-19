@@ -2,8 +2,9 @@ name: Run Azure Login with OIDC
 on: [push]
 
 permissions:
-      id-token: write
-      contents: read
+   id-token: write
+   contents: read
+   actions: read
 jobs: 
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -23,3 +24,11 @@ jobs:
           inlineScript: |
             az account show
             az group list
+
+      - name: Deploy to AKS
+        uses: Azure/k8s-deploy@v4
+        with:
+          namespace: 'default'
+          manifests: |
+              manifests/whoami.yml
+          images: 'contoso.azurecr.io/myapp:${{ event.run_id }}'
