@@ -31,4 +31,3 @@ jobs:
           namespace: 'default'
           manifests: |
               manifests/whoami.yml
-          images: 'contoso.azurecr.io/myapp:${{ event.run_id }}'
